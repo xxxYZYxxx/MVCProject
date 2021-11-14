@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--开启扫描包-->
+    <context:component-scan base-package="com.yzy"></context:component-scan>
+
+    <!--过滤静态资源-->
+    <mvc:default-servlet-handler></mvc:default-servlet-handler>
+
+    <!--开启mvc注解的支持-->
+    <mvc:annotation-driven></mvc:annotation-driven>
+
+    <!--配置视图解析器-->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+
+        <!--设置前缀-->
+        <property name="prefix" value="/WEB-INF/jsp/"></property>
+
+        <!--设置后缀-->
+        <property name="suffix" value=".jsp"></property>
+
+    </bean>
+
+    <!--配置一个持久层的实例-->
+    <bean id="dao" class="com.yzy.dao.impl.UserDaoImpl">
+
+        <property name="jdbcTemplate" ref="jdbcTemplate"></property>
+
+    </bean>
+
+    <!--注册jdbcTemplate-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+
+        <!--注入数据源实例-->
+        <property name="dataSource" ref="dataSource"></property>
+
+
+    </bean>
+
+    <!--注册数据源实例-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+
+        <!--注入源数据-->
+        <property name="url" value="jdbc:mysql://localhost:3306/anli?serverTimezone=GMT&amp;characterEncoding=utf-8"></property>
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
+        <property name="username" value="root"></property>
+        <property name="password" value="123456"></property>
+
+    </bean>
+
+
+</beans>
